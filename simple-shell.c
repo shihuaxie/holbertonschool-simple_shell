@@ -13,16 +13,16 @@ int main()
 	char *argv[] = {NULL, NULL};
 	int running = 0;
 
-	child = fork();
+	while (running == 0)
+	{
+		child = fork();
 
-	if (child == -1)
-	{
-		perror("Fork failed");
-		exit(EXIT_FAILURE);
-	}
-	else if (child == 0)
-	{
-		while (running == 0)
+		if (child == -1)
+		{
+			perror("Fork failed");
+			exit(EXIT_FAILURE);
+		}
+		else if (child == 0)
 		{
 			printf("#cisfun$: ");
 			if (getline(&line, &buffer_size, stdin) == 1)
@@ -38,9 +38,9 @@ int main()
 				perror("./shell");
 			}
 		}
-	}
-	else
+		else
 		{
 			wait(NULL);
 		}
+	}
 }
