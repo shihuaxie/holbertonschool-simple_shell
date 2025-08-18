@@ -1,5 +1,5 @@
-# Simple Shell
-
+# Simple Shell - Holberton School Australia
+![Simple Shell](./shell.jpeg)
 ## 📖 Table of Contents
 
 - 📝 Description  
