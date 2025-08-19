@@ -3,13 +3,16 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include "shell.h"
 /**
  * main - entrypoint to simple shell
+ * @ac: Number of args passed to the program
+ * @av: Array of arguments
  * Return: 0
  */
 extern char **environ;
 
-int main(void)
+int main(int ac, char **av)
 {
 	char *line;
 	size_t buffer_size = 256;
