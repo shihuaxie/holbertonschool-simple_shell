@@ -20,6 +20,25 @@ int main(void)
 
 	while (running == 0)
 	{
+		printf("#cisfun$: ");
+		/* Save getline's return value into a dedicated value
+		 *   to support  multiple if statements
+		 */
+		nread = getline(&line, &buffer_size, stdin);
+		if (nread == 1)
+		{
+			perror("getline failed\n");
+			free(line);
+			return (1);
+		}
+		/* Check for EOF as a separate condition */
+		if (nread == -1)
+		{
+			printf("\nExiting shell (EOF)\n");
+			break;
+		}
+		line[strcspn(line, "\n")] = '\0';
+		argv[0] = line;
 		child = fork();
 
 		if (child == -1)
@@ -29,30 +48,10 @@ int main(void)
 		}
 		else if (child == 0)
 		{
-			printf("#cisfun$: ");
+			if (execve(argv[0], argv, environ) == -1)
 			{
-				/* Save getline's return value into a dedicated value
-				 *   to support  multiple if statements
-				 */
-				nread = getline(&line, &buffer_size, stdin);
-				if (nread == 1)
-				{
-					perror("getline failed\n");
-					free(line);
-					return (1);
-				}
-				/* Check for EOF as a separate condition */
-				if (nread == -1)
-				{
-					printf("\nExiting shell (EOF)\n");
-					break;
-				}
-				line[strcspn(line, "\n")] = '\0';
-				argv[0] = line;
-				if (execve(argv[0], argv, environ) == -1)
-				{
-					perror("./shell");
-				}
+				perror("./shell");
+				exit(EXIT_FAILURE);
 			}
 		}
 		else
@@ -60,6 +59,7 @@ int main(void)
 			wait(NULL);
 		}
 	}
+	free(line);
 	return (0);
 }
 
