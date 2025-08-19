@@ -12,11 +12,13 @@ extern char **environ;
 int main(void)
 {
 	char *line;
-	size_t buffer_size = 0;
+	size_t buffer_size = 256;
 	ssize_t nread;
 	int child;
 	char *argv[] = {NULL, NULL};
 	int running = 0, exec_return = 0;
+
+	line = malloc(buffer_size + 1);
 
 	while (running == 0)
 	{
