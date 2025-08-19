@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include "shell.h"
+
 /**
  * main - entrypoint to simple shell
  * Return: 0
@@ -43,6 +45,13 @@ int main(void)
 		}
 		line[strcspn(line, "\n")] = '\0';
 		argv[0] = line;
+		/* Handle built-in commands */
+		if (handle_builtin(argv) == -1)
+		{
+			free(line);
+			break;
+		}
+
 		child = fork();
 
 		if (child < 0)
