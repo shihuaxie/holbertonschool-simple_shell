@@ -15,19 +15,17 @@ int handle_builtin(char **argv)
 {
 	int i;
 
-	/* Check if command is empty*/
 	if (argv[0] == NULL)
 		return (0);
 
 	if (strcmp(argv[0], "exit") == 0)
-		return (-1); // signal to exit shell
-	
-	/* Handle env built-in */
+		return (-1);
+
 	if (strcmp(argv[0], "env") == 0)
 	{
 		for (i = 0; environ[i] != NULL; i++)
 			printf("%s\n", environ[i]);
-		return(1);
+		return (1);
 	}
 
 	return (0);
