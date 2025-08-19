@@ -41,7 +41,8 @@ int main(void)
 					free(line);
 					return (1);
 				}
-				if (nread == -1) //Check for EOF as a separate condition
+				/* Check for EOF as a separate condition */
+				if (nread == -1)
 				{
 					printf("\nExiting shell (EOF)\n");
 					break;
