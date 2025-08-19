@@ -13,6 +13,7 @@ int main(void)
 {
 	char *line;
 	size_t buffer_size = 0;
+	ssize_t nread;
 	int child;
 	char *argv[] = {NULL, NULL};
 	int running = 0;
@@ -29,17 +30,28 @@ int main(void)
 		else if (child == 0)
 		{
 			printf("#cisfun$: ");
-			if (getline(&line, &buffer_size, stdin) == 1)
 			{
-				perror("getline failed\n");
-				free(line);
-				return (1);
-			}
-			line[strcspn(line, "\n")] = '\0';
-			argv[0] = line;
-			if (execve(argv[0], argv, environ) == -1)
-			{
-				perror("./shell");
+				/* Save getline's return value into a dedicated value
+				 *   to support  multiple if statements
+				 */
+				nread = getline(&line, &buffer_size, stdin);
+				if (nread == 1)
+				{
+					perror("getline failed\n");
+					free(line);
+					return (1);
+				}
+				if (nread == -1) //Check for EOF as a separate condition
+				{
+					printf("\nExiting shell (EOF)\n");
+					break;
+				}
+				line[strcspn(line, "\n")] = '\0';
+				argv[0] = line;
+				if (execve(argv[0], argv, environ) == -1)
+				{
+					perror("./shell");
+				}
 			}
 		}
 		else
