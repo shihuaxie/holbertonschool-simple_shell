@@ -42,9 +42,9 @@ The shell works in:
 
 | File | Description                                      |
 |-----------|---------------------------------------------|
-|main.c     |Entry point: main loop, prompt, input reading
+|simple-shell.c     |Entry point: main loop, prompt, input reading
 |shell.h	|Header file: prototypes, macros, extern variables
-|parser.c	|Tokenize input string into an argv array
+|tokenizers.c	|Tokenize input string into an argv array
 |execute.c	|Handles fork, execve, and waitpid
 |path.c	    |Search executables via PATH
 |builtins.c	|Implements built-in commands (exit, env)
