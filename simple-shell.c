@@ -16,7 +16,7 @@ int main(void)
 	ssize_t nread;
 	int child;
 	char *argv[] = {NULL, NULL};
-	int running = 0, last_status = 0;
+	int running = 0;
 
 	while (running == 0)
 	{
@@ -44,7 +44,6 @@ int main(void)
 		if (child == -1)
 		{
 			perror("Fork failed");
-			last_status = 1;
 			exit(EXIT_FAILURE);
 		}
 		else if (child == 0)
@@ -57,16 +56,10 @@ int main(void)
 		}
 		else
 		{
-			int status;
-			waitpid(child, &status, 0);
-
-			if (WIFEXITED(status))
-				last_status = WEXITSTATUS(status);
-			else
-				last_status = 1;
+			wait(NULL);
 		}
 	}
 	free(line);
-	return (last_status);
+	return (0);
 }
 
