@@ -16,13 +16,15 @@ int main(void)
 	ssize_t nread;
 	int child;
 	char *argv[] = {NULL, NULL};
-	int running = 0, exec_return = 0;
+	int tty = 1, exec_return = 0;
 
 	line = malloc(buffer_size + 1);
+	tty = isatty(STDIN_FILENO);
 
-	while (running == 0)
+	while (1)
 	{
-		printf("#cisfun$: ");
+		if (tty == 1)
+			printf("#cisfun$: ");
 		/* Save getline's return value into a dedicated value
 		 *   to support  multiple if statements
 		 */
@@ -36,14 +38,14 @@ int main(void)
 		/* Check for EOF as a separate condition */
 		if (nread == -1)
 		{
-			printf("\nExiting shell (EOF)\n");
+			/* printf("\nExiting shell (EOF)\n"); */
 			break;
 		}
 		line[strcspn(line, "\n")] = '\0';
 		argv[0] = line;
 		child = fork();
 
-		if (child == -1)
+		if (child < 0)
 		{
 			perror("Fork failed");
 			exit(EXIT_FAILURE);
@@ -57,10 +59,7 @@ int main(void)
 				exit(EXIT_FAILURE);
 			}
 		}
-		else
-		{
-			wait(NULL);
-		}
+		wait(NULL);
 	}
 	free(line);
 	return (0);
