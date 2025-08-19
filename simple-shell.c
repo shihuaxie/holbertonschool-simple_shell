@@ -3,9 +3,13 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+/**
+ * main - entrypoint to simple shell
+ * Return: 0
+ */
 extern char **environ;
 
-int main()
+int main(void)
 {
 	char *line;
 	size_t buffer_size = 0;
@@ -43,4 +47,6 @@ int main()
 			wait(NULL);
 		}
 	}
+	return (0);
 }
+
