@@ -16,7 +16,7 @@ int main(void)
 	ssize_t nread;
 	int child;
 	char *argv[] = {NULL, NULL};
-	int running = 0;
+	int running = 0, exec_return = 0;
 
 	while (running == 0)
 	{
@@ -48,7 +48,8 @@ int main(void)
 		}
 		else if (child == 0)
 		{
-			if (execve(argv[0], argv, environ) == -1)
+			exec_return = execve(argv[0], argv, environ);
+			if (exec_return == -1)
 			{
 				perror("./shell");
 				exit(EXIT_FAILURE);
