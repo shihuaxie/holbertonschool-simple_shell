@@ -19,10 +19,7 @@ int handle_builtin(char **argv)
 		return (0);
 
 	if (strcmp(argv[0], "exit") == 0)
-	{
-		free_argv(argv);
-		exit(0);
-	}
+		return (-1);
 
 	if (strcmp(argv[0], "env") == 0)
 	{
