@@ -95,6 +95,21 @@ char **tokenize_line(char *line)
  */
 void free_argv(char **argv)
 {
+	int len = 0, i = 0;
+
+	while (argv[i] != NULL)
+	{
+		i++;
+		len++;
+	}
+	i = 0;
 	if (argv != NULL)
-		free(argv);
+	{
+		while (i < len)
+		{
+			free(argv[i]);
+			i++;
+		}
+	}
+	free(argv);
 }

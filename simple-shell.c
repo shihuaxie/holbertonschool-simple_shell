@@ -19,7 +19,7 @@ int main(int ac, char **av)
 	ssize_t nread;
 	int child;
 /*	char *argv[] = {NULL, NULL}; */
-	int tty = 1, exec_return = 0;
+	int tty = 1, exec_return = 0, i = 0, len = 0;
 	(void)ac;
 	line = malloc(buffer_size + 1);
 	tty = isatty(STDIN_FILENO);
@@ -60,8 +60,22 @@ int main(int ac, char **av)
 			}
 		}
 		wait(NULL);
+
+		while (*av[i] != '\0')
+		{
+                	i++;
+                	len++;
+        	}
+        	i = 0;
+                while (i < len)
+                {
+                       	free(av[i]);
+                       	i++;
+                }
+        	
+        	free(av);
+		free(line);
 	}
-	free(line);
 	return (0);
 }
 
