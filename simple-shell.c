@@ -4,21 +4,6 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "shell.h"
-#include <ctype.h>
-int only_spaces(char *line)
-{
-	int i = 0, result = 0;
-
-	while (line[i] != '\0')
-	{
-		if (isspace(line[i]))
-			result = 1;
-		else
-			result = 0;
-		i++;
-	}
-	return (result);
-}
 /**
  * main - entrypoint to simple shell
  * @ac: Number of args passed to the program
@@ -49,10 +34,6 @@ int main(int ac, char **av)
 			break;
 		}
 		line[strcspn(line, "\n")] = '\0';
-		if (only_spaces(line) == 1)
-		{
-			break;
-		}
 		av = tokenize_line(line);
 		child = fork();
 
