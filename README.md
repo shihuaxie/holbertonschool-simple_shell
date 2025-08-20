@@ -82,8 +82,8 @@ The project makes use of the following system and library calls:
 Clone this repository and compile the source files with **gcc**:
 ```bash
 git clone https://github.com/shihuaxie/holbertonschool-simple_shell.git
-cd simple_shell
-gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+cd holbertonschool-simple_shell
+gcc -Wall -Werror -Wextra -pedantic *.c -o main
 ```
 
 ---
@@ -92,12 +92,12 @@ gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
 
 Run the shell in interactive mode:
 ```bash
-./hsh
+./main
 ```
 Run the shell in non-interactive mode with a command or script:
 ```bash
-echo "ls -l" | ./hsh
-./hsh < script.sh
+echo "ls -l" | ./main
+./main < script.sh
 ```
 
 ---
@@ -106,7 +106,7 @@ echo "ls -l" | ./hsh
 
 Interactive:
 ```bash
-$ ./hsh
+$ ./main
 $ ls -l
 total 8
 -rw-r--r-- 1 user user   0 Aug 18 12:00 file1
@@ -117,7 +117,7 @@ $ exit
 ```
 # Non-interactive:
 ```bash
-$ echo "/bin/ls" | ./hsh
+$ echo "/bin/ls" | ./main
 file1  file2
 ```
 
