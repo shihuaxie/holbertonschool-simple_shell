@@ -59,6 +59,7 @@ int main(int ac, char **av)
 				break;
 		}
 		av = tokenize_line(line);
+		builtin_status = handle_builtin(av);
 
 		if (handle_builtin(av) == 1)
 		{
