@@ -4,22 +4,40 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "shell.h"
+/**
+ * only_spaces - searches a string to check for only_spaces
+ * @line: string to check
+ * Return: 1 if line is only spaces or tabs, 0 if other characters found
+ */
+int only_spaces(char *line)
+{
+	int i = 0;
+
+	while (line[i] != '\0')
+	{
+		if (line[i] != ' ' && line[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 /**
  * main - entrypoint to simple shell
+ * @ac: Number of args passed to the program
+ * @av: Array of arguments
  * Return: 0
  */
 extern char **environ;
 
-int main(void)
+int main(int ac, char **av)
 {
 	char *line;
 	size_t buffer_size = 256;
 	ssize_t nread;
 	int child;
-	char *argv[] = {NULL, NULL};
 	int tty = 1, exec_return = 0;
-
+	(void)ac;
 	line = malloc(buffer_size + 1);
 	tty = isatty(STDIN_FILENO);
 
@@ -27,31 +45,19 @@ int main(void)
 	{
 		if (tty == 1)
 			printf("#cisfun$: ");
-		/* Save getline's return value into a dedicated value
-		 *   to support  multiple if statements
-		 */
 		nread = getline(&line, &buffer_size, stdin);
-		if (nread == 1)
-		{
-			perror("getline failed\n");
-			free(line);
-			return (1);
-		}
-		/* Check for EOF as a separate condition */
+		
 		if (nread == -1)
 		{
-			/* printf("\nExiting shell (EOF)\n"); */
 			break;
 		}
 		line[strcspn(line, "\n")] = '\0';
-		argv[0] = line;
-		/* Handle built-in commands */
-		if (handle_builtin(argv) == -1)
+		if (line[0] == ' ')
 		{
-			free(line);
-			break;
+			if (only_spaces(line) == 1)
+				break;
 		}
-
+		av = tokenize_line(line);
 		child = fork();
 
 		if (child < 0)
@@ -61,7 +67,7 @@ int main(void)
 		}
 		else if (child == 0)
 		{
-			exec_return = execve(argv[0], argv, environ);
+			exec_return = execve(av[0], av, environ);
 			if (exec_return == -1)
 			{
 				perror("./shell");
@@ -69,8 +75,9 @@ int main(void)
 			}
 		}
 		wait(NULL);
+
+        	free_argv(av);
 	}
 	free(line);
 	return (0);
 }
-
