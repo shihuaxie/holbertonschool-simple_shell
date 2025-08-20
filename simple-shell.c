@@ -58,6 +58,13 @@ int main(int ac, char **av)
 				break;
 		}
 		av = tokenize_line(line);
+
+		if (handle_builtin(av) == 1)
+		{
+			free_argv(av);
+			continue;
+		}
+
 		child = fork();
 
 		if (child < 0)
