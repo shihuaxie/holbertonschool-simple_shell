@@ -18,9 +18,9 @@ int main(int ac, char **av)
 	size_t buffer_size = 256;
 	ssize_t nread;
 	int child;
-	char *argv[] = {NULL, NULL};
+/*	char *argv[] = {NULL, NULL}; */
 	int tty = 1, exec_return = 0;
-
+	(void)ac;
 	line = malloc(buffer_size + 1);
 	tty = isatty(STDIN_FILENO);
 
@@ -28,9 +28,6 @@ int main(int ac, char **av)
 	{
 		if (tty == 1)
 			printf("#cisfun$: ");
-		/* Save getline's return value into a dedicated value
-		 *   to support  multiple if statements
-		 */
 		nread = getline(&line, &buffer_size, stdin);
 		if (nread == 1)
 		{
@@ -38,14 +35,13 @@ int main(int ac, char **av)
 			free(line);
 			return (1);
 		}
-		/* Check for EOF as a separate condition */
 		if (nread == -1)
 		{
-			/* printf("\nExiting shell (EOF)\n"); */
 			break;
 		}
 		line[strcspn(line, "\n")] = '\0';
-		argv[0] = line;
+		av = tokenize_line(line);
+		/* argv[0] = line; */
 		child = fork();
 
 		if (child < 0)
@@ -55,7 +51,8 @@ int main(int ac, char **av)
 		}
 		else if (child == 0)
 		{
-			exec_return = execve(argv[0], argv, environ);
+			/* exec_return = execve(argv[0], argv, environ); */
+			exec_return = execve(av[0], av, environ);
 			if (exec_return == -1)
 			{
 				perror("./shell");
