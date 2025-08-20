@@ -61,7 +61,7 @@ int main(int ac, char **av)
 		av = tokenize_line(line);
 		builtin_status = handle_builtin(av);
 
-		if (handle_builtin(av) == 1)
+		if (builtin_status == -1)
 		{
 			free_argv(av);
 			free(line);
