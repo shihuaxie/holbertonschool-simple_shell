@@ -37,6 +37,7 @@ int main(int ac, char **av)
 	ssize_t nread;
 	int child;
 	int tty = 1, exec_return = 0;
+	int builtin_status = 0;
 	(void)ac;
 	line = malloc(buffer_size + 1);
 	tty = isatty(STDIN_FILENO);
@@ -60,6 +61,12 @@ int main(int ac, char **av)
 		av = tokenize_line(line);
 
 		if (handle_builtin(av) == 1)
+		{
+			free_argv(av);
+			free(line);
+			exit(0);
+		}
+		else if (builtin_status == 1)
 		{
 			free_argv(av);
 			continue;
