@@ -89,11 +89,20 @@ int main(int ac, char **av)
 				exit(EXIT_FAILURE);
 			}
 		}
-		wait(NULL);
+		else
+		{
+			int status;
+			wait(&status);
 
-        	free_argv(av);
+			if (WIFEXITED(status))
+				exec_return = WEXITSTATUS(status);
+			else
+				exec_return = 1;
+		}
+
+		free_argv(av);
 	}
-	free(line);
-	return (0);
-}
 
+	free(line);
+	return (exec_return);
+}
