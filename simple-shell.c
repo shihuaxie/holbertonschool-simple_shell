@@ -4,7 +4,11 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "shell.h"
-
+/**
+ * only_spaces - searches a string to check for only_spaces
+ * @line: string to check
+ * Return: 1 if line is only spaces or tabs, 0 if other characters found
+ */
 int only_spaces(char *line)
 {
 	int i = 0;
