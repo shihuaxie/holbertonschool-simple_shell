@@ -26,5 +26,6 @@ char **tokenize_line(char *line);
  * @argv: The array to free
  */
 void free_argv(char **argv);
+int only_spaces(char *line);
 
 #endif
