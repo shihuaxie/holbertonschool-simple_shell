@@ -26,15 +26,20 @@ The shell works in:
 ---
 
 ## ✨ Features
-- Display a prompt and wait for user input.  
-- Execute commands with arguments.  
-- Search executables using the `PATH` environment variable.  
-- Handle errors gracefully (command not found, permission denied).  
+
+- Display a prompt and wait for user input  
+- Execute commands with arguments  
+- Search executables using the `PATH` environment variable  
+- Handle errors gracefully:  
+  - Command not found  
+  - Permission denied  
 - Built-in commands:  
-  - `exit` → exit the shell.  
-  - `env` → print environment variables.  
-- Supports **EOF (Ctrl+D)** to exit shell.  
-- Works in both **interactive and non-interactive** modes.  
+  - `exit` → exit the shell  
+  - `env` → print environment variables  
+- Fork only runs if the command exists (saves resources)  
+- Supports **EOF (Ctrl+D)** to exit shell  
+- Works in both **interactive and non-interactive** modes  
+- Provides **basic error messages** similar to `/bin/sh`  
 
 ---
 
@@ -45,7 +50,6 @@ The shell works in:
 |simple-shell.c     |Entry point: main loop, prompt, input reading
 |shell.h	|Header file: prototypes, macros, extern variables
 |tokenizers.c	|Tokenize input string into an argv array
-|execute.c	|Handles fork, execve, and waitpid
 |path.c	    |Search executables via PATH
 |builtins.c	|Implements built-in commands (exit, env)
 |AUTHORS	|Contributors list
@@ -57,21 +61,22 @@ The shell works in:
 ## ⚙️ System and Library Calls
 
 The project makes use of the following system and library calls:
-	•	access
-	•	chdir
-	•	close
-	•	execve
-	•	exit
-	•	fork
-	•	free
-	•	isatty
-	•	malloc
-	•	perror
-	•	signal
-	•	stat
-	•	strtok
-	•	wait / waitpid
-	•	write
+
+- access – to check if a command exists in PATH.
+- chdir – to change directory (future built-in support).
+- close – to close file descriptors.
+- execve – to execute new programs.
+- exit – to terminate the shell or child process.
+- fork – to create a new process (only called if command exists).
+- free – to release allocated memory.
+- isatty – to check interactive vs non-interactive mode.
+- malloc – to dynamically allocate memory.
+- perror – to print error messages.
+- signal – to handle signals (e.g., Ctrl+C).
+- stat – to check file information and verify executables.
+- strtok – to parse command line input into tokens.
+- wait / waitpid – to wait for child processes.
+- write – to print output to standard streams.
 
 ---
 
