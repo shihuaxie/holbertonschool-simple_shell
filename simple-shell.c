@@ -95,9 +95,12 @@ int main(int ac, char **av)
 			wait(&status);
 
 			if (WIFEXITED(status))
+			{
 				exec_return = WEXITSTATUS(status);
+			}
 			else
 				exec_return = 1;
+			return (exec_return);
 		}
 
 		free_argv(av);
