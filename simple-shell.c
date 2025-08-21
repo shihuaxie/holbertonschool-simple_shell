@@ -102,7 +102,10 @@ int main(int ac, char **av)
 
 		free_argv(av);
 		if (exec_return == 2)
+		{
+			free(line);
 			return (exec_return);
+		}
 	}
 
 	free(line);
