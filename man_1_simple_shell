@@ -4,7 +4,7 @@
 .B simple_shell \- a simple UNIX command interpreter
 
 .SH SYNOPSIS
-.B ./simple_shell
+.B ./shell
 .P
 .B [command] [arguments]
 .P
@@ -12,13 +12,15 @@
 
 .SH DESCRIPTION
 .B simple_shell is a minimalist UNIX command language interpreter capable of executing
-commands both interactively from \fBSTDIN\fR and non-interactively from files or pipes.
+commands both interactively from \fBSTDIN\fR and
+non-interactively from files or pipes.
 
 Invocation
 .P
 When invoked with standard input connected to a terminal (determined by
 .BR isatty (3)),
-the shell runs in interactive mode, displaying a prompt ("$ ") and waiting for user input.
+the shell runs in interactive mode, displaying
+a prompt ("$ ") and waiting for user input.
 .P
 When invoked with standard input not connected to a terminal, the shell reads and executes commands line by line until EOF.
 .P
@@ -106,7 +108,7 @@ This is a learning project; error handling may not cover all edge cases.
 .P
 Ashleigh Henna \fI<https://github.com/ashleigh6734>\fR
 .P
-Grâce Kayembe \fI<https://github.com/GraceKayembe>\fR
+Grace Kayembe \fI<https://github.com/GraceKayembe>\fR
 .P
 Katherine Beringer \fI<https://github.com/kayrbee>\fR
 .P
