@@ -1,1 +1,114 @@
-This is the man page.
+.TH SIMPLE_SHELL "1" "August 2025" "simple_shell 1.0" "General Commands Manual"
+
+.SH NAME
+.B simple_shell \- a simple UNIX command interpreter
+
+.SH SYNOPSIS
+.B ./simple_shell
+.P
+.B [command] [arguments]
+.P
+.B ./shell [script_file]
+
+.SH DESCRIPTION
+.B simple_shell is a minimalist UNIX command language interpreter capable of executing
+commands both interactively from \fBSTDIN\fR and non-interactively from files or pipes.
+
+Invocation
+.P
+When invoked with standard input connected to a terminal (determined by
+.BR isatty (3)),
+the shell runs in interactive mode, displaying a prompt ("$ ") and waiting for user input.
+.P
+When invoked with standard input not connected to a terminal, the shell reads and executes commands line by line until EOF.
+.P
+If a file argument is provided, the shell reads and executes commands from that file, one per line, before exiting.
+
+Environment
+.P
+Upon startup, \fBsimple_shell\fR inherits the environment of its parent process. The environment is an array of \fBNAME=VALUE\fR pairs representing variables.
+
+Command Execution
+.P
+After tokenizing a command line, the shell follows these rules:
+.IP 1. 4
+If the command matches a builtin, that builtin is executed.
+.IP 2. 4
+Otherwise, the shell searches the directories listed in the \fBPATH\fR variable for an executable file matching the command.
+.IP 3. 4
+If the command is specified with an absolute or relative path, the shell attempts to execute it directly.
+
+.SH EXIT STATUS
+The shell exits with the status of the last executed command.  
+Zero indicates success; non-zero indicates failure.  
+Builtins return zero on success and non-zero on errors.
+
+.SH SIGNALS
+While in interactive mode:
+.P
+.IP \(bu 4
+\fBSIGINT\fR (Ctrl+C) is ignored by the shell but interrupts running child processes.
+.IP \(bu 4
+\fBEOF\fR (Ctrl+D) exits the shell gracefully.
+
+.SH BUILTIN COMMANDS
+.TP
+.BR exit
+Exit the shell.
+.TP
+.BR env
+Display the current environment variables.
+.TP
+.BR setenv " " [name] " " [value]
+Set or update an environment variable.
+.TP
+.BR unsetenv " " [name]
+Remove an environment variable.
+.TP
+.BR cd " " [directory]
+Change the current working directory.
+
+.SH EXAMPLES
+Interactive:
+.P
+.EX
+$ ./shell
+$ ls -l
+total 16
+-rw-r--r--  1 user user   123 main.c
+-rw-r--r--  1 user user   456 shell.c
+$ exit
+.EE
+.P
+Non-interactive:
+.P
+.EX
+$ echo "ls -l" | ./shell
+$ cat script.sh | ./shell
+.EE
+
+.SH SYSTEM CALLS
+The implementation relies on:
+.BR execve (2),
+.BR fork (2),
+.BR wait (2),
+.BR perror (3),
+.BR malloc (3),
+.BR free (3),
+.BR access (2),
+.BR signal (2),
+and related system calls.
+
+.SH BUGS
+This is a learning project; error handling may not cover all edge cases.
+
+.SH AUTHOR
+.P
+Ashleigh Henna \fI<https://github.com/ashleigh6734>\fR
+.P
+Grâce Kayembe \fI<https://github.com/GraceKayembe>\fR
+.P
+Katherine Beringer \fI<https://github.com/kayrbee>\fR
+.P
+Sylvia Xie \fI<https://github.com/shihuaxie>\fR
+.P
