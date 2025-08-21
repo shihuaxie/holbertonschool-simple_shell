@@ -48,8 +48,6 @@ The shell works in:
 |execute.c	|Handles fork, execve, and waitpid
 |path.c	    |Search executables via PATH
 |builtins.c	|Implements built-in commands (exit, env)
-|errors.c	|Error handling and messages
-|utils.c	|Helper functions (string ops, memory mgmt)
 |AUTHORS	|Contributors list
 |man_1_simple_shell	|Manual page for the shell
 |README.md|	This file
