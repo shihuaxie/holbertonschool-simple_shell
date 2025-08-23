@@ -29,11 +29,10 @@ int only_spaces(char *line)
  * Return: 0
  */
 extern char **environ;
-char *find_command(char *command);
 
 int main(int ac, char **av)
 {
-	char *line, *cmd_path;
+	char *line;
 	size_t buffer_size = 256;
 	ssize_t nread;
 	int child;
@@ -74,32 +73,19 @@ int main(int ac, char **av)
 			continue;
 		}
 
-		/* search for command in PATH */
-		cmd_path = find_command(av[0]);
-		if (cmd_path == NULL)
-		{
-			fprintf(stderr, "%s: command not found\n", av[0]);
-			free_argv(av);
-			continue;
-		}
-
 		child = fork();
+
 		if (child < 0)
 		{
 			perror("Fork failed");
-			free(cmd_path);
-			free_argv(av);
-			continue;
+			exit(EXIT_FAILURE);
 		}
-
-		if (child == 0)
+		else if (child == 0)
 		{
-			exec_return = execve(cmd_path, av, environ);
+			exec_return = execve(av[0], av, environ);
 			if (exec_return == -1)
 			{
-				perror(av[0]);
-				free(cmd_path);
-				free_argv(av);
+				perror("./shell");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -114,8 +100,12 @@ int main(int ac, char **av)
 				exec_return = 1;
 		}
 
-		free(cmd_path);
 		free_argv(av);
+		if (exec_return == 2)
+		{
+			free(line);
+			return (exec_return);
+		}
 	}
 
 	free(line);
