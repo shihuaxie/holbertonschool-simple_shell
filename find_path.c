@@ -13,7 +13,7 @@ extern char **environ;
  */
 char *find_command(char *command)
 {
-    int length;
+    int length, i;
     char *path, *path_copy, *full_path, *directory;
     
     if (command == NULL)
