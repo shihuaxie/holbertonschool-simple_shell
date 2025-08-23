@@ -31,8 +31,15 @@ char *find_command(char *command)
 	return (NULL);
      }
      
-    /* Get PATH */
-    path = getenv("PATH");
+      /* Get PATH */
+    for (i = 0; environ[i]; i++)
+    {
+	    if (strncmp(environ[i], "PATH=", 5) == 0)
+	    {
+		    path = environ[i] + 5;
+		    break;
+	    }
+    }
     if (path == NULL)
     {
         return (NULL);
