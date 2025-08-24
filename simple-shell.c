@@ -83,7 +83,7 @@ int main(int ac, char **av)
 		cmd_path = find_command(av[0]);
 		if (cmd_path == NULL)
 		{
-			fprintf(stderr, "%s: command not found\n", av[0]);
+			fprintf(stderr, "%s: 1: %s: command not found\n", "./hsh", av[0]);
 			free_argv(av);
 			continue;
 		}
