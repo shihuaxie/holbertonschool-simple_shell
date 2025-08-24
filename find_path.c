@@ -22,55 +22,48 @@ char *find_command(char *command)
 	if (*command == '/' || *command == '.')
 	{
 		if (access(command, X_OK) == 0)
-		{
 			return (strdup(command));
-		}
-		return (NULL);
+		else
+			return (NULL);
 	}
 
 	for (i = 0; environ[i]; i++)
 	{
 		if (strncmp(environ[i], "PATH=", 5) == 0\
-		{
 		path = environ[i] + 5;
 		break;
-		}
 	}
 	if (path == NULL)
 		return (NULL);
 
 	path_copy = strdup(path);
 	if (path_copy == NULL)
-	{
 	return (NULL);
-	}
-
 
 	directory = strtok(path_copy, ":");
 	while (directory != NULL)
 	{
 		if (strlen(directory) == 0)
-		{
 			directory = ".";
+
+		length = strlen(directory) + strlen(command) + 2;
+		full_path = malloc(sizeof(char) * length);
+		if (full_path == NULL)
+		{
+			free(path_copy);
+			return (NULL);
 		}
-	length = strlen(directory) + strlen(command) + 2;
-	full_path = malloc(sizeof(char) * length);
-	if (full_path == NULL)
-	{
-		free(path_copy);
-		return (NULL);
-	}
 
-	sprintf(full_path, "%s/%s", directory, command);
+		sprintf(full_path, "%s/%s", directory, command);
 
-	if (access(full_path, X_OK) == 0)
-	{
-		free(path_copy);
-		return (full_path);
-	}
+		if (access(full_path, X_OK) == 0)
+		{
+			free(path_copy);
+			return (full_path);
+		}
 
-	free(full_path);
-	directory = strtok(NULL, ":");
+		free(full_path);
+		directory = strtok(NULL, ":");
 	}
 
 	free(path_copy);
