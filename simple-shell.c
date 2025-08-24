@@ -92,8 +92,7 @@ int main(int ac, char **av)
 		}
 		if (child == 0)
 		{
-			exec_return = execve(cmd_path, av, environ);
-			if (exec_return == -1)
+			if (execve(cmd_path, av, environ) == -1)
 			{
 				perror(av[0]);
 				free(cmd_path);
@@ -105,16 +104,14 @@ int main(int ac, char **av)
 		{
 			int status;
 
-			wait(&status);
+			if (waitpid(child, &status, 0) == -1)
+				perror("waitpid failed");
 			if (WIFEXITED(status))
-			{
 				exec_return = WEXITSTATUS(status);
-			}
 			else
-			{
 				exec_return = 1;
-			}
 		}
+
 		free(cmd_path);
 		free_argv(av);
 	}
