@@ -85,6 +85,7 @@ int main(int ac, char **av)
 		{
 			fprintf(stderr, "%s: 1: %s: command not found\n", "./hsh", av[0]);
 			free_argv(av);
+			exec_return = 127;
 			continue;
 		}
 
