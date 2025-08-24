@@ -104,12 +104,15 @@ int main(int ac, char **av)
 		{
 			int status;
 
-			if (waitpid(child, &status, 0) == -1)
-				perror("waitpid failed");
+			wait(&status);
 			if (WIFEXITED(status))
+			{
 				exec_return = WEXITSTATUS(status);
+			}
 			else
+			{
 				exec_return = 1;
+			}
 		}
 
 		free(cmd_path);
