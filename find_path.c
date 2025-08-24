@@ -5,7 +5,44 @@
 #include <sys/wait.h>
 #include "shell.h"
 
-extern char **environ;
+/**
+ * get_path - get PATH string from environ
+ * Return: pointer to PATH value or NULL
+ */
+char *get_path(void)
+{
+    int i;
+
+    for (i = 0; environ[i]; i++)
+    {
+	if (strncmp(environ[i], "PATH=", 5) == 0)
+	    return (environ[i] + 5);
+    }
+    return (NULL);
+}
+
+
+/**
+ * full_path - full path for a command
+ * @directory: directory string
+ * @command: command string
+ * Return: malloc'd full path or NULL
+ */
+char *full_path(char *directory, char *command)
+{
+    int length;
+    char *full_path;
+
+    length = strlen(directiory) + strlen(command) + 2;
+    full_path = malloc(sizeof(char) * length);
+    if (full_path == NULL)
+	return (NULL);
+
+    sprintf(full_path, "%s/%s", directory, command);
+    return (full_path);
+}
+
+
 /**
  * find_command - Simple shell 0.3
  * @command: Handle the PATH
@@ -13,8 +50,8 @@ extern char **environ;
  */
 char *find_command(char *command)
 {
-	int length, i;
-	char *path, *path_copy, *full_path, *directory;
+	int length;
+	char *path, *path_copy, full_path, *directory;
 
 	if (command == NULL)
 		return (NULL);
@@ -27,14 +64,9 @@ char *find_command(char *command)
 			return (NULL);
 	}
 
-	for (i = 0; environ[i]; i++)
-	{
-		if (strncmp(environ[i], "PATH=", 5) == 0\
-		path = environ[i] + 5;
-		break;
-	}
+	path = get_path();
 	if (path == NULL)
-		return (NULL);
+		return (NULL)
 
 	path_copy = strdup(path);
 	if (path_copy == NULL)
@@ -46,15 +78,12 @@ char *find_command(char *command)
 		if (strlen(directory) == 0)
 			directory = ".";
 
-		length = strlen(directory) + strlen(command) + 2;
-		full_path = malloc(sizeof(char) * length);
+		full_path = full_path(directory, command);
 		if (full_path == NULL)
 		{
 			free(path_copy);
 			return (NULL);
 		}
-
-		sprintf(full_path, "%s/%s", directory, command);
 
 		if (access(full_path, X_OK) == 0)
 		{
