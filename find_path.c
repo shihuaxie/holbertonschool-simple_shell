@@ -59,14 +59,16 @@ char *find_command(char *command)
 		else
 			return (NULL);
 	}
-
 	path = get_path();
-	if (path == NULL)
+	if (path == NULL || path[0] == '\0')
+	{
+		if (access(command, X_OK) == 0)
+			return (strdup(command));
 		return (NULL);
+	}
 	path_copy = strdup(path);
 	if (path_copy == NULL)
 		return (NULL);
-
 	directory = strtok(path_copy, ":");
 	while (directory != NULL)
 	{
