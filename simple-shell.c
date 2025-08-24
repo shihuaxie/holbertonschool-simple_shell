@@ -41,7 +41,6 @@ int main(int ac, char **av)
 	int tty = 1, exec_return = 0;
 	int builtin_status = 0;
 	(void)ac;
-
 	line = malloc(buffer_size + 1);
 	tty = isatty(STDIN_FILENO);
 
@@ -49,22 +48,26 @@ int main(int ac, char **av)
 	{
 		if (tty == 1)
 			printf("#cisfun$: ");
-		nread = getline(&line, &buffer_size, stdin);
 
+		nread = getline(&line, &buffer_size, stdin);
 		if (nread == -1)
 		{
 			break;
 		}
+
 		line[strcspn(line, "\n")] = '\0';
-		if (line[0] == ' ')
+		if (line[0] == '\0' || only_spaces(line))
 		{
-			if (only_spaces(line) == 1)
-				break;
+			continue;
 		}
 
 		av = tokenize_line(line);
-		builtin_status = handle_builtin(av);
+		if (av == NULL || av[0] == NULL)
+		{
+			continue;
+		}
 
+		builtin_status = handle_builtin(av);
 		if (builtin_status == -1)
 		{
 			free_argv(av);

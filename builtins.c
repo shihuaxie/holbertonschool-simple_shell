@@ -14,7 +14,7 @@ int handle_builtin(char **argv)
 {
 	int i;
 
-	if (argv[0] == NULL)
+	if (argv == NULL || argv[0] == NULL)
 		return (0);
 
 	if (strcmp(argv[0], "exit") == 0)
