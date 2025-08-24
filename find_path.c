@@ -27,7 +27,7 @@ char *get_path(void)
  * @command: command string
  * Return: malloc'd full path or NULL
  */
-char *full_path(char *directory, char *command)
+char *build_path(char *directory, char *command)
 {
 	int length;
 	char *full_path;
@@ -62,17 +62,17 @@ char *find_command(char *command)
 	}
 	path = get_path();
 	if (path == NULL)
-		return (NULL)
+		return (NULL);
 	path_copy = strdup(path);
 	if (path_copy == NULL)
-	return (NULL);
+		return (NULL);
 
 	directory = strtok(path_copy, ":");
 	while (directory != NULL)
 	{
 		if (strlen(directory) == 0)
 			directory = ".";
-		full_path = full_path(directory, command);
+		full_path = build_path(directory, command);
 		if (full_path == NULL)
 		{
 			free(path_copy);
