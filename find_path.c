@@ -32,7 +32,7 @@ char *build_path(char *directory, char *command)
 	int length;
 	char *full_path;
 
-	length = strlen(directiory) + strlen(command) + 2;
+	length = strlen(directory) + strlen(command) + 2;
 	full_path = malloc(sizeof(char) * length);
 	if (full_path == NULL)
 		return (NULL);
@@ -48,7 +48,7 @@ char *build_path(char *directory, char *command)
  */
 char *find_command(char *command)
 {
-	char *path, *path_copy, full_path, *directory;
+	char *path, *path_copy, *full_path, *directory;
 
 	if (command == NULL)
 		return (NULL);
