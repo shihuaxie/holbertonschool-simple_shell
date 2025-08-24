@@ -4,6 +4,10 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "shell.h"
+
+extern char **environ;
+char *find_command(char *command);
+
 /**
  * only_spaces - searches a string to check for only_spaces
  * @line: string to check
@@ -28,9 +32,6 @@ int only_spaces(char *line)
  * @av: Array of arguments
  * Return: 0
  */
-extern char **environ;
-char *find_command(char *command);
-
 int main(int ac, char **av)
 {
 	char *line, *cmd_path;
@@ -40,6 +41,7 @@ int main(int ac, char **av)
 	int tty = 1, exec_return = 0;
 	int builtin_status = 0;
 	(void)ac;
+
 	line = malloc(buffer_size + 1);
 	tty = isatty(STDIN_FILENO);
 
@@ -59,6 +61,7 @@ int main(int ac, char **av)
 			if (only_spaces(line) == 1)
 				break;
 		}
+
 		av = tokenize_line(line);
 		builtin_status = handle_builtin(av);
 
@@ -74,7 +77,6 @@ int main(int ac, char **av)
 			continue;
 		}
 
-		/* search for command in PATH */
 		cmd_path = find_command(av[0]);
 		if (cmd_path == NULL)
 		{
@@ -82,6 +84,7 @@ int main(int ac, char **av)
 			free_argv(av);
 			continue;
 		}
+
 		child = fork();
 		if (child < 0)
 		{
@@ -90,6 +93,7 @@ int main(int ac, char **av)
 			free_argv(av);
 			continue;
 		}
+
 		if (child == 0)
 		{
 			if (execve(cmd_path, av, environ) == -1)
@@ -106,13 +110,9 @@ int main(int ac, char **av)
 
 			wait(&status);
 			if (WIFEXITED(status))
-			{
 				exec_return = WEXITSTATUS(status);
-			}
 			else
-			{
 				exec_return = 1;
-			}
 		}
 
 		free(cmd_path);

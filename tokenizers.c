@@ -31,13 +31,15 @@ size_t count_tokens(const char *s)
 
 		if (*p == '\0')
 			break;
+
 		/* Found a token */
 		n++;
 
 		/* Move to the end of this token */
-		while (*p != '\0' &&  *p != ' ' && *p != '\t')
+		while (*p != '\0' && *p != ' ' && *p != '\t')
 			p++;
 	}
+
 	return (n);
 }
 
@@ -51,7 +53,7 @@ size_t count_tokens(const char *s)
  * free_argv(), but the tokens themselves should not be freed.
  *
  * Return: A pointer to an array of string pointers (argv),
- *         or NULL if no tokens are found.
+ *	   or NULL if no tokens are found.
  */
 char **tokenize_line(char *line)
 {
@@ -84,7 +86,6 @@ char **tokenize_line(char *line)
 
 	return (argv);
 }
-
 
 /**
  * free_argv - Free the token array

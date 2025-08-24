@@ -10,7 +10,6 @@ extern char **environ;
  * @argv: parsed command arguments
  * Return: -1 if shell should exit, otherwise 0
  */
-
 int handle_builtin(char **argv)
 {
 	int i;

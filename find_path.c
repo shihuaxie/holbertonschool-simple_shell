@@ -22,7 +22,7 @@ char *get_path(void)
 }
 
 /**
- * full_path - full path for a command
+ * build_path - full path for a command
  * @directory: directory string
  * @command: command string
  * Return: malloc'd full path or NULL
@@ -52,7 +52,6 @@ char *find_command(char *command)
 
 	if (command == NULL)
 		return (NULL);
-
 	if (*command == '/' || *command == '.')
 	{
 		if (access(command, X_OK) == 0)
@@ -60,6 +59,7 @@ char *find_command(char *command)
 		else
 			return (NULL);
 	}
+
 	path = get_path();
 	if (path == NULL)
 		return (NULL);
