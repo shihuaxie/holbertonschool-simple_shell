@@ -13,7 +13,7 @@ extern char **environ;
  */
 char *find_command(char *command)
 {
-	int length, i;
+	int length;
 	char *path, *path_copy, *full_path, *directory;
     
 	if (command == NULL)
@@ -33,14 +33,7 @@ char *find_command(char *command)
 	}
      
 	/* Get PATH */
-	for (i = 0; environ[i]; i++)
-	{
-		if (strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			path = environ[i] + 5; /* skip "PATH=" */
-			break;
-		}
-	}
+	path = getenv("PATH");
 	if (path == NULL)
 	{
 		return (NULL);
