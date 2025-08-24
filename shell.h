@@ -11,6 +11,8 @@ void free_argv(char **argv);
 int only_spaces(char *line);
 int handle_builtin(char **argv);
 char *find_command(char *command);
+char *full_path(char *directory, char *command);
+char *get_path(void);
 int check_file(char **av);
 
 #endif

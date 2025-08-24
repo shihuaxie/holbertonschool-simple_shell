@@ -11,16 +11,15 @@
  */
 char *get_path(void)
 {
-    int i;
+	int i;
 
-    for (i = 0; environ[i]; i++)
-    {
-	if (strncmp(environ[i], "PATH=", 5) == 0)
-	    return (environ[i] + 5);
-    }
-    return (NULL);
+	for (i = 0; environ[i]; i++)
+	{
+		if (strncmp(environ[i], "PATH=", 5) == 0)
+			return (environ[i] + 5);
+	}
+	return (NULL);
 }
-
 
 /**
  * full_path - full path for a command
@@ -30,18 +29,17 @@ char *get_path(void)
  */
 char *full_path(char *directory, char *command)
 {
-    int length;
-    char *full_path;
+	int length;
+	char *full_path;
 
-    length = strlen(directiory) + strlen(command) + 2;
-    full_path = malloc(sizeof(char) * length);
-    if (full_path == NULL)
-	return (NULL);
+	length = strlen(directiory) + strlen(command) + 2;
+	full_path = malloc(sizeof(char) * length);
+	if (full_path == NULL)
+		return (NULL);
 
-    sprintf(full_path, "%s/%s", directory, command);
-    return (full_path);
+	sprintf(full_path, "%s/%s", directory, command);
+	return (full_path);
 }
-
 
 /**
  * find_command - Simple shell 0.3
@@ -50,7 +48,6 @@ char *full_path(char *directory, char *command)
  */
 char *find_command(char *command)
 {
-	int length;
 	char *path, *path_copy, full_path, *directory;
 
 	if (command == NULL)
@@ -63,11 +60,9 @@ char *find_command(char *command)
 		else
 			return (NULL);
 	}
-
 	path = get_path();
 	if (path == NULL)
 		return (NULL)
-
 	path_copy = strdup(path);
 	if (path_copy == NULL)
 	return (NULL);
@@ -77,24 +72,20 @@ char *find_command(char *command)
 	{
 		if (strlen(directory) == 0)
 			directory = ".";
-
 		full_path = full_path(directory, command);
 		if (full_path == NULL)
 		{
 			free(path_copy);
 			return (NULL);
 		}
-
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path_copy);
 			return (full_path);
 		}
-
 		free(full_path);
 		directory = strtok(NULL, ":");
 	}
-
 	free(path_copy);
 	return (NULL);
 }

@@ -77,12 +77,11 @@ int main(int ac, char **av)
 		/* search for command in PATH */
 		cmd_path = find_command(av[0]);
 		if (cmd_path == NULL)
-                {
+		{
 			fprintf(stderr, "%s: command not found\n", av[0]);
-                        free_argv(av);
+			free_argv(av);
 			continue;
-                }
-
+		}
 		child = fork();
 		if (child < 0)
 		{
@@ -91,7 +90,6 @@ int main(int ac, char **av)
 			free_argv(av);
 			continue;
 		}
-
 		if (child == 0)
 		{
 			exec_return = execve(cmd_path, av, environ);
@@ -103,9 +101,10 @@ int main(int ac, char **av)
 				exit(EXIT_FAILURE);
 			}
 		}
-		else 
+		else
 		{
 			int status;
+
 			wait(&status);
 			if (WIFEXITED(status))
 			{
@@ -115,7 +114,6 @@ int main(int ac, char **av)
 			{
 				exec_return = 1;
 			}
-			
 		}
 		free(cmd_path);
 		free_argv(av);
