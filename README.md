@@ -50,7 +50,7 @@ The shell works in:
 |simple-shell.c     |Entry point: main loop, prompt, input reading
 |shell.h	|Header file: prototypes, macros, extern variables
 |tokenizers.c	|Tokenize input string into an argv array
-|path.c	    |Search executables via PATH
+|find_path.c	    |Search executables via PATH
 |builtins.c	|Implements built-in commands (exit, env)
 |AUTHORS	|Contributors list
 |man_1_simple_shell	|Manual page for the shell
