@@ -5,6 +5,9 @@
 #include <string.h>
 #include "shell.h"
 
+extern char **environ;
+char *find_command(char *command);
+
 /**
  * only_spaces - searches a string to check for only_spaces
  * @line: string to check
