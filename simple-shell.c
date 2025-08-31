@@ -119,6 +119,14 @@ int main(int ac, char **av)
 				exec_return = 1;
 		}
 
+		if (strcmp(av[0], "exit") == 0)
+		{
+			free(line);
+			free(cmd_path);
+			free_argv(av);
+			exit(exec_return);
+		}
+
 		free(cmd_path);
 		free_argv(av);
 	}
