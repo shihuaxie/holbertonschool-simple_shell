@@ -72,7 +72,7 @@ int main(int ac, char **av)
 		{
 			free_argv(av);
 			free(line);
-			exit(0);
+			exit(exec_return);
 		}
 		else if (builtin_status == 1)
 		{
@@ -84,8 +84,8 @@ int main(int ac, char **av)
 		if (cmd_path == NULL)
 		{
 			fprintf(stderr, "./hsh: 1: %s: not found\n", av[0]);
-			free_argv(av);
 			exec_return = 127;
+			free_argv(av);
 			continue;
 		}
 
@@ -105,7 +105,7 @@ int main(int ac, char **av)
 				perror(av[0]);
 				free(cmd_path);
 				free_argv(av);
-				exit(EXIT_FAILURE);
+				exit(127);
 			}
 		}
 		else
@@ -117,14 +117,6 @@ int main(int ac, char **av)
 				exec_return = WEXITSTATUS(status);
 			else
 				exec_return = 1;
-		}
-
-		if (strcmp(av[0], "exit") == 0)
-		{
-			free(line);
-			free(cmd_path);
-			free_argv(av);
-			exit(exec_return);
 		}
 
 		free(cmd_path);
