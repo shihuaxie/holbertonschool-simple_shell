@@ -5,7 +5,6 @@
 #include <string.h>
 #include "shell.h"
 
-extern char **environ;
 char *find_command(char *command);
 
 /**
