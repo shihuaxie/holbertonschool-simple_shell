@@ -15,7 +15,7 @@
 ---
 
 ## 📝 Description
-This project is a UNIX command line interpreter (shell) developed as part of the Holberton School / ALX curriculum.  
+This project is a UNIX command line interpreter (shell) developed as part of the Holberton School.  
 
 It provides a minimal implementation of a shell in C (GNU89). The program reads user input, parses it into arguments, searches for the executable, and runs it in a child process.
 
