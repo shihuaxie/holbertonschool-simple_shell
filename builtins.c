@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include "shell.h"
 
-extern char **environ;
-
 /**
  * handle_builtin - check and executes built-in commands
  * @argv: parsed command arguments
